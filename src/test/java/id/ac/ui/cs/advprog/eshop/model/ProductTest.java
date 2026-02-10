@@ -22,8 +22,9 @@ class ProductTest {
     }
 
     @Test
-    void testGetProductIdFalse() {
-        assertNotEquals("bukan-id-yang-benar", this.product.getProductId());
+    void testGetProductNameFalse() {
+        this.product.setProductName(null);
+        assertEquals("Sampo Cap Bambang", this.product.getProductName());
     }
 
     @Test
@@ -32,8 +33,9 @@ class ProductTest {
     }
 
     @Test
-    void testGetProductNameFalse() {
-        assertNotEquals("Sampo Cap Asep", this.product.getProductName());
+    void testGetProductNameFalse2() {
+        this.product.setProductName("");
+        assertEquals("Sampo Cap Bambang", this.product.getProductName());
     }
 
     @Test
@@ -43,6 +45,7 @@ class ProductTest {
 
     @Test
     void testGetProductQuantityFalse() {
-        assertNotEquals(-1, this.product.getProductQuantity());
+        this.product.setProductQuantity(-1);
+        assertEquals(100, this.product.getProductQuantity());
     }
 }
