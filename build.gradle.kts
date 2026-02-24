@@ -3,6 +3,7 @@ plugins {
     jacoco
     id("org.springframework.boot") version "3.5.10"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.sonarqube") version "4.4.1.3373"
 }
 
 group = "id.ac.ui.cs.advprog"
@@ -72,4 +73,12 @@ tasks.test{
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "A-Fernando-Lawrence-2406422986_Modul-1-Coding-Standards")
+        property("sonar.organization", "a-fernando-lawrence-2406422986")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }

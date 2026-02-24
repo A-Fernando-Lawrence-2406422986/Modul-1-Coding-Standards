@@ -1,0 +1,14 @@
+package id.ac.ui.cs.advprog.eshop.controller;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class HomeControllerTest {
+
+    @Test
+    void testCreateHomePage() {
+        HomeController homeController = new HomeController();
+        String viewName = homeController.createHomePage();
+        assertEquals("HomePage", viewName);
+    }
+}
