@@ -147,4 +147,95 @@ class ProductRepositoryTest {
         assertEquals(product.getProductName(), savedProduct.getProductName());
         assertEquals(product.getProductQuantity(), savedProduct.getProductQuantity());
     }
+
+    @Test
+    void testCreateWithNullId() {
+        Product product = new Product();
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+
+        Product savedProduct = productRepository.create(product);
+
+        assertNotNull(savedProduct.getProductId());
+    }
+
+    @Test
+    void testFindById() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        Product foundProduct = productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        assertNotNull(foundProduct);
+        assertEquals(product.getProductId(), foundProduct.getProductId());
+    }
+
+    @Test
+    void testFindByIdNotFound() {
+        Product foundProduct = productRepository.findById("non-existent-id");
+        assertNull(foundProduct);
+    }
+
+    @Test
+    void testFindByIdEmptyRepository() {
+        Product foundProduct = productRepository.findById("some-id");
+        assertNull(foundProduct);
+    }
+
+    @Test
+    void testFindByIdMoreThanOneProduct() {
+        Product product1 = new Product();
+        product1.setProductId("id-1");
+        product1.setProductName("Product 1");
+        product1.setProductQuantity(100);
+        productRepository.create(product1);
+
+        Product product2 = new Product();
+        product2.setProductId("id-2");
+        product2.setProductName("Product 2");
+        product2.setProductQuantity(50);
+        productRepository.create(product2);
+
+        Product foundProduct = productRepository.findById("id-2");
+        assertNotNull(foundProduct);
+        assertEquals(product2.getProductId(), foundProduct.getProductId());
+    }
+
+    @Test
+    void testEditEmptyRepository() {
+        Product product = new Product();
+        product.setProductId("id-1");
+        product.setProductName("Product 1");
+        product.setProductQuantity(100);
+
+        Product result = productRepository.edit(product);
+        assertNull(result);
+    }
+
+    @Test
+    void testEditProductMoreThanOneProduct() {
+        Product product1 = new Product();
+        product1.setProductId("id-1");
+        product1.setProductName("Product 1");
+        product1.setProductQuantity(100);
+        productRepository.create(product1);
+
+        Product product2 = new Product();
+        product2.setProductId("id-2");
+        product2.setProductName("Product 2");
+        product2.setProductQuantity(50);
+        productRepository.create(product2);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("id-2");
+        updatedProduct.setProductName("Product 2 Updated");
+        updatedProduct.setProductQuantity(60);
+
+        Product result = productRepository.edit(updatedProduct);
+        assertNotNull(result);
+        assertEquals("Product 2 Updated", result.getProductName());
+        assertEquals(60, result.getProductQuantity());
+    }
 }
