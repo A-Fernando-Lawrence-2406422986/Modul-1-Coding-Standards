@@ -17,7 +17,12 @@ Reflection module 2
 
 
 
-Issue that I fixed was a report by SonarCloud stating "Add at least one assertion to this test case". This occurred because the main() method was called inside a test without verifying any output. To fix this, I call an assertDoesNotThrow(() -> EshopApplication.main(new String[] {})); so that it satisfies SonarCloud requirement that every test must have an assertion.
+Issue that I fixed  reported by SonarCloud: 
+- "Add at least one assertion to this test case". This occurred because the main() method was called inside a test without verifying any output. To fix this, I call an assertDoesNotThrow(() -> EshopApplication.main(new String[] {})); so that it satisfies SonarCloud requirement that every test must have an assertion.
+- SonarCloud flagged an empty setUp() method in ProductRepositoryTest. So I simply just deleted it.
+- Resolved a "Group dependencies by their destination" code smell by reordering the dependencies in build.gradle.kts so that all testImplementation lines were grouped together.
+- SonarCloud warned to "Remove this field injection and use constructor injection instead" in both ProductController and ProductServiceImpl. I fixed this by removing the @Autowired from the fields, making the fields final, and generating constructors to inject the dependencies.
+- I removed the throws Exception from multiple test methods in CreateProductFunctionalTest and HomePageFunctionalTest. SonarCloud flagged these because the methods did not actually throw any checked exceptions.
 
 
 
