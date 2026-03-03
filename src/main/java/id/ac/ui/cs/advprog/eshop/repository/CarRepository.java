@@ -19,7 +19,7 @@ public class CarRepository {
         return car;
     }
 
-    public Iterator<Car> findall() {
+    public Iterator<Car> findAll() {
         return carData.iterator();
     }
 
