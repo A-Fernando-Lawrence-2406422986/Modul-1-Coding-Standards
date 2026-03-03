@@ -27,3 +27,35 @@ Issue that I fixed  reported by SonarCloud:
 
 
 The current implementation already meets the definition of both Continuous Integration (CI) and Continuous Deployment (CD). For CI, the GitHub actions workflow (ci.yml and sonarcloud.yml) automatically build the project, run unit test and perform code quality analysis every time a new code it push or a pull request is opened. This will make sure the code is validated and functionable. For CD, the system is fully automated through the Koyeb's pull-based integration where every validated code is merged to main branch, the PaaS automatically detects the change, build new Docker image and deploy the application.
+
+Reflection module 3
+
+In this project, I applied the SOLID principles primarily within the Car feature, specifically across the controller, service, and repository layers:
+
+For the Single Responsibility Principle (SRP), I ensured each class has only one main reason to change. For instance, CarController solely handles HTTP requests, CarServiceImpl manages the business logic, and InMemoryCarRepository focuses entirely on data storage operations.
+
+I applied the Open/Closed Principle (OCP) so that behavior can be extended without modifying existing logic. By having CarServiceImpl depend on the CarRepository interface, I can easily introduce a PostgresCarRepository in the future without altering the service layer.
+
+To meet the Liskov Substitution Principle (LSP), I made sure subtypes can safely replace base types. InMemoryCarRepository can be used wherever a CarRepository is expected without breaking the application's behavior.
+
+For the Interface Segregation Principle (ISP), I split the car service contracts into smaller, focused interfaces like CarCreator, CarReader, CarUpdater, and CarDeleter. This way, CarController relies on these specific interfaces rather than a single bloated dependency.
+
+Lastly, for the Dependency Inversion Principle (DIP), I ensured high-level modules depend on abstractions. CarController depends on service abstractions, and CarServiceImpl relies on the CarRepository abstraction rather than concrete repository classes.
+
+Applying these SOLID principles gives several distinct advantages to the project:
+
+It improves maintainability because responsibilities are separated. If I need to change how car data is persisted, I don't have to touch the CarController at all.
+
+The code becomes much easier to extend. Adding a database-backed repository just means creating a new implementation of CarRepository.
+
+Testability is significantly higher. With abstractions in place, I can easily mock interfaces like CarReader or CarCreator in my CarControllerTest without needing to set up concrete classes.
+
+It lowers coupling. CarServiceImpl doesn't need to know if the data is stored in memory or a database; it just trusts the contract. This makes refactoring much safer since clear boundaries prevent unexpected side effects across layers.
+
+On the other hand, not applying SOLID principles can lead to several disadvantages:
+
+It creates "God classes" with mixed responsibilities. For example, when the car controller logic was still bundled inside ProductController, changes to cars and products were heavily entangled, making the code fragile and hard to change safely.
+
+The project becomes highly coupled to concrete classes. If CarServiceImpl depended directly on a specific repository class, migrating to a new database would force me to rewrite the service logic.
+
+Testing becomes a lot harder. Without interfaces, unit tests are forced to rely on real implementations, making the test setup complex and brittle.
