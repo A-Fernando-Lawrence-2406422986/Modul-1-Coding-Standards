@@ -73,7 +73,7 @@ class ProductControllerTest {
 
     @Test
     void testEditProductPost() {
-        String viewName = productController.editProductPost(product);
+        String viewName = productController.editProductPost(product, model);
         assertEquals("redirect:list", viewName);
         verify(productService, times(1)).edit(product);
     }
@@ -81,7 +81,7 @@ class ProductControllerTest {
     @Test
     void testDeleteProduct() {
         String viewName = productController.deleteProduct("123");
-        assertEquals("redirect:/product/list", viewName);
+        assertEquals("redirect:list", viewName);
         verify(productService, times(1)).delete("123");
     }
 }
