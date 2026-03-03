@@ -14,7 +14,7 @@ class CarRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        carRepository = new CarRepository();
+        carRepository = new InMemoryCarRepository();
     }
 
     @Test
