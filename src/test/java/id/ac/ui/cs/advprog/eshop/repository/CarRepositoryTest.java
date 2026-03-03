@@ -70,6 +70,19 @@ class CarRepositoryTest {
     }
 
     @Test
+    void testFindByIdNotFoundInNonEmptyRepository() {
+        Car car = new Car();
+        car.setCarId("car-10");
+        car.setCarName("Roadster");
+        car.setCarColor("Yellow");
+        car.setCarQuantity(2);
+        carRepository.create(car);
+
+        Car foundCar = carRepository.findById("missing-id");
+        assertNull(foundCar);
+    }
+
+    @Test
     void testUpdateFoundAndNotFound() {
         Car car = new Car();
         car.setCarId("car-3");
